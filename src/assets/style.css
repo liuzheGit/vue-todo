@@ -1,0 +1,16 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*{ padding:0px; margin:0px}
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*默认去除ul、li的默认样式*/
+.p,.h1,.h2,.h3,.h4,.h5,.h6{ margin: 0; padding: 0;}
+.dl,.dl dd,.ul,.ul li,li{ list-style:none; margin: 0; padding: 0;} 

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
-import 'normalize.css'
-import './assets/style.css'
+import "normalize.css";
+import "./assets/style.css";
 
 Vue.config.productionTip = false;
 

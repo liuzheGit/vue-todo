@@ -67,9 +67,6 @@ header{
   color: #A4A4A4;
 }
 
-header > span{
-  /* border: 1px solid gray;      */
-}
 header .app-title{
   color: #2B2B2B;
 }

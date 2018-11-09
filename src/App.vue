@@ -13,7 +13,29 @@
         </svg>
       </span>
     </header>
+    <!-- 主体 -->
+    <div>
+      <ul class="list-container">
+        <li v-for="item in noFinish" v-bind:key="item.id">
+          <label>
+            <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
+            <span></span>
+          </label>
+          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">xx</button></span>
+        </li>
+      </ul>
+    <ul class="list-container">
+        <li v-for="item in yesfinish" v-bind:key="item.id">
+          <label>
+            <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
+            <span></span>
+          </label>
+          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">xx</button></span>
+        </li>
+      </ul>
+    </div>
 
+    <!-- 底部 -->
     <div class="bottom">
       <ul>
         <li>
@@ -44,7 +66,56 @@
 <script>
 export default {
   name: "app",
-  components: {}
+  components: {},
+  data() {
+    return {
+      myList: [
+        {
+          id: 0,
+          text: '选项1',
+          state: true
+        },
+        {
+          id: 1,
+          text: '选项2',
+          state: false
+        }, 
+        {
+          id: 3,
+          text: '选项3',
+          state: true
+        }, 
+        {
+          id: 4,
+          text: '选项4',
+          state: true
+        } 
+      ]
+    };
+  },
+  computed: {
+    noFinish(){
+      return this.myList.filter((item) =>{
+        return item.state === false
+      })
+    },
+    yesfinish(){
+      return this.myList.filter((item) =>{
+        return item.state === true
+      })
+    }
+  },
+  methods: {
+    changeBox(id){
+      var item = this.myList.filter((item) =>{
+        return item.id === id
+      })
+      item[0].state =!item[0].state
+    },
+    deleteItem(id){
+      console.log()
+    }
+  }
 };
 </script>
 
@@ -56,35 +127,70 @@ export default {
   fill: currentColor;
   overflow: hidden;
 }
-#app{
-  color: #B2B2B2;
+#app {
+  color: #b2b2b2;
 }
-header{
+header {
   display: flex;
   font-size: 24px;
   justify-content: space-between;
   padding: 8px;
-  color: #A4A4A4;
+  color: #a4a4a4;
 }
 
-header .app-title{
-  color: #2B2B2B;
+header .app-title {
+  color: #2b2b2b;
 }
-.bottom{
+.bottom {
   font-size: 30px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 4px;
-  border-top: 1px solid #E9E9E9;
-  background: #FFFFFF;
+  border-top: 1px solid #e9e9e9;
+  background: #ffffff;
 }
-.bottom > ul{
+.bottom > ul {
   display: flex;
   justify-content: space-between;
 }
-.bottom li{
+.bottom li {
   margin: 0 20px;
+}
+
+.check-input {
+  appearance: none;
+  -webkit-appearance: none;
+  display: none;
+  outline: none;
+}
+.check-input + span {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: #f00;
+  background: url("./assets/checkbox-icon.png");
+  background-position-x: -5px;
+  background-position-y: -31px;
+  cursor: pointer;
+}
+.check-input:checked + span {
+  background-position-y: -5px;
+}
+
+
+.list-container{
+  border: 1px solid #000;
+  padding: 12px;
+  color: #000;
+}
+.list-container > li{
+  border: 1px solid cyan;
+  margin-top: 4px;
+}
+
+.list-container .list-words{
+  margin-left: 16px;
 }
 </style>

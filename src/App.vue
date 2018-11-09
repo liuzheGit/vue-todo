@@ -14,28 +14,33 @@
       </span>
     </header>
     <!-- 主体 -->
-    <div>
+    <div class="app-content">
       <ul class="list-container">
         <li v-for="item in noFinish" v-bind:key="item.id">
           <label>
             <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
             <span></span>
           </label>
-          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">删除</button></span>
+          <span class="list-words">{{item.text}} <span class="del-btn" @click="deleteItem(item.id)">删除</span></span>
         </li>
       </ul>
-    <ul class="list-container">
+    <div class="untodo-title">已完成</div>
+    <ul class="list-container untodo-ul">
         <li v-for="item in yesfinish" v-bind:key="item.id">
           <label>
             <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
             <span></span>
           </label>
-          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">删除</button></span>
+          <span class="list-words">{{item.text}} <span class="uodo-btn del-btn" @click="deleteItem(item.id)">删除</span></span>
         </li>
       </ul>
     </div>
-
-    <!-- 底部 -->
+    <div class="app-add">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-jiaru"></use>
+      </svg> 
+    </div>
+<!-- 底部 -->
     <div class="bottom">
       <ul>
         <li>
@@ -129,6 +134,11 @@ export default {
 </script>
 
 <style>
+html,body{
+  height: 100%;
+}
+
+
 .icon {
   width: 1em;
   height: 1em;
@@ -137,6 +147,8 @@ export default {
   overflow: hidden;
 }
 #app {
+  height: 100%;
+  background: #EFF1F0;
   color: #b2b2b2;
 }
 header {
@@ -145,6 +157,8 @@ header {
   justify-content: space-between;
   padding: 8px;
   color: #a4a4a4;
+  background: #fff;
+  border-bottom: 3px solid #EFF1F0;
 }
 
 header .app-title {
@@ -190,16 +204,50 @@ header .app-title {
 
 
 .list-container{
-  border: 1px solid #000;
   padding: 12px;
   color: #000;
+  background: #fff;
 }
 .list-container > li{
-  border: 1px solid cyan;
   margin-top: 4px;
 }
+.list-container .del-btn{
+  border: 1px solid gray;
+  font-size: 14px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  float: right;
+}
 
+.untodo-ul .list-words{
+  color: #0b040470;
+}
+
+.untodo-ul .uodo-btn{
+  color: #0b040470;
+}
 .list-container .list-words{
   margin-left: 16px;
+}
+
+.untodo-title{
+  padding: 4px 8px;
+  color: #9C9C9C;
+  font-weight: 200;
+  font-size: 12px;
+}
+
+
+.app-add{
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  bottom: 50px;
+  right: 10px;
+  background: #7E7F83;
+  text-align: center;
+  line-height: 40px;
+  box-shadow: 0px 1px 8px 0px black;
 }
 </style>

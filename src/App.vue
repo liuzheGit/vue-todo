@@ -21,7 +21,7 @@
             <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
             <span></span>
           </label>
-          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">xx</button></span>
+          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">删除</button></span>
         </li>
       </ul>
     <ul class="list-container">
@@ -30,7 +30,7 @@
             <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
             <span></span>
           </label>
-          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">xx</button></span>
+          <span class="list-words">{{item.text}} <button @click="deleteItem(item.id)">删除</button></span>
         </li>
       </ul>
     </div>
@@ -69,6 +69,7 @@ export default {
   components: {},
   data() {
     return {
+      initId: 100,
       myList: [
         {
           id: 0,
@@ -90,7 +91,12 @@ export default {
           text: '选项4',
           state: true
         } 
-      ]
+      ],
+      newItem:{
+        id: this.initId,
+        state: false,
+        text: ''
+      }
     };
   },
   computed: {
@@ -113,7 +119,10 @@ export default {
       item[0].state =!item[0].state
     },
     deleteItem(id){
-      console.log()
+      var temp = this.myList.filter((item)=>{
+        return item.id !== id
+      })
+      this.myList = temp;
     }
   }
 };

@@ -40,6 +40,10 @@
         <use xlink:href="#icon-jiaru"></use>
       </svg> 
     </div>
+
+    <div class="app-input">
+      <input type="text" placeholder="例如: 6点下班去超市买零食" v-model="newItemText"><button class="input-add" @click="addList">添加</button>
+    </div>
 <!-- 底部 -->
     <div class="bottom">
       <ul>
@@ -78,30 +82,36 @@ export default {
       myList: [
         {
           id: 0,
-          text: '选项1',
+          text: '新建todo项目',
           state: true
         },
         {
           id: 1,
-          text: '选项2',
+          text: 'input加上',
           state: false
         }, 
         {
           id: 3,
-          text: '选项3',
+          text: '获取设备',
           state: true
         }, 
         {
           id: 4,
-          text: '选项4',
+          text: 'iscroll',
           state: true
-        } 
+        }, 
+        {
+          id: 5,
+          text: '看react文档',
+          state: false
+        }, 
+        {
+          id: 6,
+          text: '买菜',
+          state: false
+        }  
       ],
-      newItem:{
-        id: this.initId,
-        state: false,
-        text: ''
-      }
+      newItemText: ''
     };
   },
   computed: {
@@ -117,6 +127,21 @@ export default {
     }
   },
   methods: {
+    addList(){
+      var temp = this.newItemText;
+      if(temp === ''){
+
+      }else{
+        this.initId = this.initId + 1;
+        var id = this.initId;
+        
+        var newObj = {
+          id,state: false,text: temp
+        }
+        this.myList.unshift(newObj)
+        this.newItemText = '';
+      }
+    },
     changeBox(id){
       var item = this.myList.filter((item) =>{
         return item.id === id
@@ -237,7 +262,6 @@ header .app-title {
   font-size: 12px;
 }
 
-
 .app-add{
   position: fixed;
   width: 40px;
@@ -249,5 +273,39 @@ header .app-title {
   text-align: center;
   line-height: 40px;
   box-shadow: 0px 1px 8px 0px black;
+}
+
+.app-input{
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  background: #F0F0F0;
+  padding: 6px 8px;
+  width: 100%;
+  box-shadow: 0px -1px 20px 0px #0000006e;
+}
+.app-input input{
+  width: 100%;
+  vertical-align: top;
+  border: none;
+  outline: none;
+  margin: 2px 4px;
+  border-radius: 3px;
+  height: 30px;
+  padding: 0 20px 0 4px;
+  font-size: 16px;
+  
+}
+
+.app-input .input-add{
+  margin-left: 5px;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  padding: 2px 8px;
+  border-radius: 2px;
 }
 </style>

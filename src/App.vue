@@ -18,7 +18,7 @@
       <ul class="list-container">
         <li v-for="item in noFinish" v-bind:key="item.id">
           <label>
-            <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
+            <input type="checkbox" class="check-input" v-model="item.state">
             <span></span>
           </label>
           <span class="list-words">{{item.text}} <span class="del-btn" @click="deleteItem(item.id)">删除</span></span>
@@ -28,7 +28,7 @@
     <ul class="list-container untodo-ul">
         <li v-for="item in yesfinish" v-bind:key="item.id">
           <label>
-            <input type="checkbox" class="check-input" v-bind:checked="item.state" @input="changeBox(item.id)">
+            <input type="checkbox" class="check-input" v-model="item.state">
             <span></span>
           </label>
           <span class="list-words">{{item.text}} <span class="uodo-btn del-btn" @click="deleteItem(item.id)">删除</span></span>
@@ -111,7 +111,8 @@ export default {
           state: false
         }  
       ],
-      newItemText: ''
+      newItemText: '',
+      myChecked: true
     };
   },
   computed: {
@@ -141,12 +142,6 @@ export default {
         this.myList.unshift(newObj)
         this.newItemText = '';
       }
-    },
-    changeBox(id){
-      var item = this.myList.filter((item) =>{
-        return item.id === id
-      })
-      item[0].state =!item[0].state
     },
     deleteItem(id){
       var temp = this.myList.filter((item)=>{

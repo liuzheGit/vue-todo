@@ -1,21 +1,24 @@
 <template>
   <div id="app">
     <header>
-      <span>
-        <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-liebiao"></use>
-        </svg>
-      </span>
+      <!--<span>-->
+        <!--<svg class="icon" aria-hidden="true">-->
+            <!--<use xlink:href="#icon-liebiao"></use>-->
+        <!--</svg>-->
+      <!--</span>-->
       <span class="app-title">TODO</span>
-      <span>
-        <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-moreread"></use>
-        </svg>
-      </span>
+      <!--<span>-->
+        <!--<svg class="icon" aria-hidden="true">-->
+            <!--<use xlink:href="#icon-moreread"></use>-->
+        <!--</svg>-->
+      <!--</span>-->
     </header>
     <!-- 主体 -->
     <div class="app-content">
-      <ul class="list-container">
+      <div v-if="noFinish.length === 0" class="noList">
+        任务完成的很好 继续加油
+      </div>
+      <ul v-else class="list-container">
         <li v-for="item in noFinish" v-bind:key="item.id">
           <label>
             <input type="checkbox" class="check-input" v-model="item.state">
@@ -41,7 +44,7 @@
       </svg> 
     </div>
 
-    <div class="app-input">
+    <div class="app-input" v-bind:class="{active : inputState}">
       <input type="text" placeholder="例如: 6点下班去超市买零食" v-model="newItemText"><button class="input-add" @click="addList">添加</button>
     </div>
 <!-- 底部 -->
@@ -169,7 +172,7 @@ export default {
       return Math.floor(Math.random() * (max - min)) + min;
     },
     showInput(){
-
+      this.inputState = !this.inputState;
     }
   },
   watch: {
@@ -204,7 +207,7 @@ body{
 header {
   display: flex;
   font-size: 24px;
-  justify-content: space-between;
+  justify-content: center;
   padding: 8px;
   color: #a4a4a4;
   background: #fff;
@@ -223,6 +226,7 @@ header .app-title {
   padding: 4px;
   border-top: 1px solid #e9e9e9;
   background: #ffffff;
+  display: none;
 }
 .bottom > ul {
   display: flex;
@@ -251,11 +255,13 @@ header .app-title {
 .check-input:checked + span {
   background-position-y: -5px;
 }
-
-.list-container {
+.list-container,.noList {
   padding: 12px;
   color: #000;
   background: #fff;
+}
+.noList {
+  font-size: 12px;
 }
 .list-container > li {
   margin-top: 4px;
@@ -307,6 +313,10 @@ header .app-title {
   padding: 6px 8px;
   width: 100%;
   box-shadow: 0 -1px 20px 0 #0000006e;
+  display: none;
+}
+.app-input.active{
+  display: block;
 }
 .app-input input {
   width: 100%;

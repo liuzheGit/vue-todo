@@ -25,7 +25,7 @@
     </div>
 
     <div class="app-input" v-bind:class="{active : inputState}">
-      <input type="text" placeholder="例如: 6点下班去超市买零食" v-model="newItemText"><button class="input-add" @click="addList">添加</button>
+      <input ref="inputAdd" type="text" @keydown.enter="addList" placeholder="例如: 6点下班去超市买零食" v-model="newItemText"><button class="input-add" @click="addList">添加</button>
     </div>
 <!-- 底部 -->
     <div class="bottom">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import TodoList from './components/TodoList'
+import TodoList from './components/TodoList'
 export default {
   name: "app",
   components: { TodoList },
@@ -74,9 +74,6 @@ export default {
     this.myList = JSON.parse(localData) || [];
     let randomId = localStorage.getItem('todoId') || this.getRandom(10, 50);
     this.initId = +randomId;
-  },
-  computed: {
-
   },
   methods: {
     addList() {
@@ -104,9 +101,6 @@ export default {
       localStorage.setItem('todo', JSON.stringify(data));
       localStorage.setItem('todoId', this.initId);
     },
-    myLog(){
-      // console.log('我出发了')
-    },
     getRandom(min, max){
       min = Math.ceil(min);
       max = Math.floor(max);
@@ -114,6 +108,11 @@ export default {
     },
     showInput(){
       this.inputState = !this.inputState;
+      if (this.inputState === true) {
+        setTimeout(() => {
+          this.$refs.inputAdd.focus();
+        }, 10);
+      }
     }
   },
   watch: {

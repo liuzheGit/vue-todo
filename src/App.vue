@@ -35,7 +35,7 @@
         </li>
       </ul>
     </div>
-    <div class="app-add">
+    <div class="app-add" v-on:click="showInput">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-jiaru"></use>
       </svg> 
@@ -78,7 +78,7 @@ export default {
   components: {},
   data() {
     return {
-      initId: 100,
+      initId: null,
       myList: [
         {
           id: 0,
@@ -89,75 +89,105 @@ export default {
           id: 1,
           text: 'input加上',
           state: false
-        }, 
+        },
         {
           id: 3,
           text: '获取设备',
           state: true
-        }, 
+        },
         {
           id: 4,
           text: 'iscroll',
           state: true
-        }, 
+        },
         {
           id: 5,
           text: '看react文档',
           state: false
-        }, 
+        },
         {
           id: 6,
           text: '买菜',
           state: false
-        }  
+        }
       ],
       newItemText: '',
-      myChecked: true
+      myChecked: true,
+      inputState: false
     };
   },
+  created() {
+    let localData = localStorage.getItem("todo");
+    this.myList = JSON.parse(localData) || [];
+    let randomId = localStorage.getItem('todoId') || this.getRandom(10, 50);
+    this.initId = +randomId;
+  },
   computed: {
-    noFinish(){
-      return this.myList.filter((item) =>{
-        return item.state === false
-      })
+    noFinish() {
+      return this.myList.filter((item) => {
+        return item.state === false;
+      });
     },
-    yesfinish(){
+    yesfinish() {
       return this.myList.filter((item) =>{
-        return item.state === true
-      })
+        return item.state === true;
+      });
     }
   },
   methods: {
-    addList(){
-      var temp = this.newItemText;
-      if(temp === ''){
-
-      }else{
+    addList() {
+      let temp = this.newItemText;
+      if(temp !== ''){
         this.initId = this.initId + 1;
-        var id = this.initId;
-        
-        var newObj = {
+        let id = this.initId;
+
+        let newObj = {
           id,state: false,text: temp
-        }
-        this.myList.unshift(newObj)
+        };
+        this.myList.unshift(newObj);
         this.newItemText = '';
       }
+      this.saveStore(this.myList);
     },
-    deleteItem(id){
-      var temp = this.myList.filter((item)=>{
-        return item.id !== id
-      })
+    deleteItem(id) {
+      let temp = this.myList.filter((item)=>{
+        return item.id !== id;
+      });
       this.myList = temp;
+      this.saveStore(this.myList);
+    },
+    saveStore(data) {
+      localStorage.setItem('todo', JSON.stringify(data));
+      localStorage.setItem('todoId', this.initId);
+    },
+    myLog(){
+      // console.log('我出发了')
+    },
+    getRandom(min, max){
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    },
+    showInput(){
+
+    }
+  },
+  watch: {
+    myList:{
+      handler(newValue){
+        this.saveStore(newValue);
+      },
+      deep: true
     }
   }
 };
 </script>
 
 <style>
-html,body{
+html,
+body{
   height: 100%;
 }
-
 
 .icon {
   width: 1em;
@@ -168,7 +198,7 @@ html,body{
 }
 #app {
   height: 100%;
-  background: #EFF1F0;
+  background: #eff1f0;
   color: #b2b2b2;
 }
 header {
@@ -178,7 +208,7 @@ header {
   padding: 8px;
   color: #a4a4a4;
   background: #fff;
-  border-bottom: 3px solid #EFF1F0;
+  border-bottom: 3px solid #eff1f0;
 }
 
 header .app-title {
@@ -222,16 +252,15 @@ header .app-title {
   background-position-y: -5px;
 }
 
-
-.list-container{
+.list-container {
   padding: 12px;
   color: #000;
   background: #fff;
 }
-.list-container > li{
+.list-container > li {
   margin-top: 4px;
 }
-.list-container .del-btn{
+.list-container .del-btn {
   border: 1px solid gray;
   font-size: 14px;
   padding: 2px 4px;
@@ -239,47 +268,47 @@ header .app-title {
   float: right;
 }
 
-.untodo-ul .list-words{
+.untodo-ul .list-words {
   color: #0b040470;
 }
 
-.untodo-ul .uodo-btn{
+.untodo-ul .uodo-btn {
   color: #0b040470;
 }
-.list-container .list-words{
+.list-container .list-words {
   margin-left: 16px;
 }
 
-.untodo-title{
+.untodo-title {
   padding: 4px 8px;
-  color: #9C9C9C;
+  color: #9c9c9c;
   font-weight: 200;
   font-size: 12px;
 }
 
-.app-add{
+.app-add {
   position: fixed;
   width: 40px;
   height: 40px;
   border-radius: 50%;
   bottom: 50px;
   right: 10px;
-  background: #7E7F83;
+  background: #7e7f83;
   text-align: center;
   line-height: 40px;
-  box-shadow: 0px 1px 8px 0px black;
+  box-shadow: 0 1px 8px 0 black;
 }
 
-.app-input{
+.app-input {
   position: fixed;
   bottom: 0;
   z-index: 10;
-  background: #F0F0F0;
+  background: #f0f0f0;
   padding: 6px 8px;
   width: 100%;
-  box-shadow: 0px -1px 20px 0px #0000006e;
+  box-shadow: 0 -1px 20px 0 #0000006e;
 }
-.app-input input{
+.app-input input {
   width: 100%;
   vertical-align: top;
   border: none;
@@ -289,10 +318,9 @@ header .app-title {
   height: 30px;
   padding: 0 20px 0 4px;
   font-size: 16px;
-  
 }
 
-.app-input .input-add{
+.app-input .input-add {
   margin-left: 5px;
   position: absolute;
   right: 12px;

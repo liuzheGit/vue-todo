@@ -14,30 +14,10 @@
       <!--</span>-->
     </header>
     <!-- 主体 -->
-    <div class="app-content">
-      <div v-if="noFinish.length === 0" class="noList">
-        任务完成的很好 继续加油
-      </div>
-      <ul v-else class="list-container">
-        <li v-for="item in noFinish" v-bind:key="item.id">
-          <label>
-            <input type="checkbox" class="check-input" v-model="item.state">
-            <span></span>
-          </label>
-          <span class="list-words">{{item.text}} <span class="del-btn" @click="deleteItem(item.id)">删除</span></span>
-        </li>
-      </ul>
-    <div class="untodo-title">已完成</div>
-    <ul class="list-container untodo-ul">
-        <li v-for="item in yesfinish" v-bind:key="item.id">
-          <label>
-            <input type="checkbox" class="check-input" v-model="item.state">
-            <span></span>
-          </label>
-          <span class="list-words">{{item.text}} <span class="uodo-btn del-btn" @click="deleteItem(item.id)">删除</span></span>
-        </li>
-      </ul>
-    </div>
+    <TodoList
+      v-bind:myList="myList"
+      v-on:delete="deleteItem"
+    />
     <div class="app-add" v-on:click="showInput">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-jiaru"></use>
@@ -76,44 +56,14 @@
 </template>
 
 <script>
+  import TodoList from './components/TodoList'
 export default {
   name: "app",
-  components: {},
+  components: { TodoList },
   data() {
     return {
       initId: null,
-      myList: [
-        {
-          id: 0,
-          text: '新建todo项目',
-          state: true
-        },
-        {
-          id: 1,
-          text: 'input加上',
-          state: false
-        },
-        {
-          id: 3,
-          text: '获取设备',
-          state: true
-        },
-        {
-          id: 4,
-          text: 'iscroll',
-          state: true
-        },
-        {
-          id: 5,
-          text: '看react文档',
-          state: false
-        },
-        {
-          id: 6,
-          text: '买菜',
-          state: false
-        }
-      ],
+      myList: [],
       newItemText: '',
       myChecked: true,
       inputState: false
@@ -126,16 +76,7 @@ export default {
     this.initId = +randomId;
   },
   computed: {
-    noFinish() {
-      return this.myList.filter((item) => {
-        return item.state === false;
-      });
-    },
-    yesfinish() {
-      return this.myList.filter((item) =>{
-        return item.state === true;
-      });
-    }
+
   },
   methods: {
     addList() {
@@ -255,42 +196,7 @@ header .app-title {
 .check-input:checked + span {
   background-position-y: -5px;
 }
-.list-container,.noList {
-  padding: 12px;
-  color: #000;
-  background: #fff;
-}
-.noList {
-  font-size: 12px;
-}
-.list-container > li {
-  margin-top: 4px;
-}
-.list-container .del-btn {
-  border: 1px solid gray;
-  font-size: 14px;
-  padding: 2px 4px;
-  border-radius: 3px;
-  float: right;
-}
 
-.untodo-ul .list-words {
-  color: #0b040470;
-}
-
-.untodo-ul .uodo-btn {
-  color: #0b040470;
-}
-.list-container .list-words {
-  margin-left: 16px;
-}
-
-.untodo-title {
-  padding: 4px 8px;
-  color: #9c9c9c;
-  font-weight: 200;
-  font-size: 12px;
-}
 
 .app-add {
   position: fixed;
